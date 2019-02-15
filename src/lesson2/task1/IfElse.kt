@@ -97,23 +97,43 @@ fun ageDescription(age: Int): String {
  * и t3 часов — со скоростью v3 км/час.
  * Определить, за какое время он одолел первую половину пути?
  */
+
+
 fun timeForHalfWay(t1: Double, v1: Double,
                    t2: Double, v2: Double,
                    t3: Double, v3: Double): Double {
     var result = 0.0
     val halfWay = (t1*v1 + t2*v2 + t3*v3)/2
-   // val firstDiv = halfWay/v1
-    //val firstDivRemain = halfWay%v1
-    if(halfWay%v1 <= 0) {
-        result = halfWay/v1
+
+    if((halfWay - v1*t1) > 0) {
+        result = result + t1;
+        if(((halfWay - v1*t1) - v2*t2) > 0) {
+            result = result + t2;
+//            if((((halfWay - v1*t1) - v2*t2) - v3*t3) == 0.0) {
+//                result = +t3
+//                return result
+//            }
+            if((((halfWay - v1*t1) - v2*t2) - v3*t3) < 0) {
+                result = result + ((halfWay - v1*t1) - v2*t2)/v3;
+                return result
+            }
+        }
+        if(((halfWay - v1*t1) - v2*t2) == 0.0) {
+            result = result + t2
+            return result
+        }
+        if(((halfWay - v1*t1) - v2*t2) < 0) {
+            result = result +(halfWay - v1*t1)/v2;
+            return result
+        }
     }
-    else {
-        if (halfWay%v1%v2 > 0){
-            result = halfWay/v1 + halfWay/v1/v2 + halfWay/v1/v2/v3
-        }
-        else{
-            result = (halfWay - halfWay%v1)/v1 + halfWay%v1/v2
-        }
+    if((halfWay - v1*t1) == 0.0) {
+        result = t1
+        return result
+    }
+    if((halfWay - v1*t1) < 0) {
+        result = halfWay/v1;
+        return result
     }
     return result
 }
